@@ -18,8 +18,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.praktikum10.R
 import com.example.praktikum10.ui.DestinasiEntry
 import com.example.praktikum10.ui.DestinasiHome
-import com.example.praktikum10.ui.EntrySiswaScreen
 import com.example.praktikum10.ui.HomeScreen
+import com.example.praktikum10.ui.EntrySiswaScreen
 
 @Composable
 fun SiswaApp(navController: NavHostController = rememberNavController()) {
@@ -45,7 +45,6 @@ fun SiswaToAppBar(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = stringResource(R.string.back)
                     )
-
                 }
             }
         }
