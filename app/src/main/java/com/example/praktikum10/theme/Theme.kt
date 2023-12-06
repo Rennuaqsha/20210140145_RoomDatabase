@@ -1,4 +1,4 @@
-package com.example.praktikum10.ui.theme
+package com.example.praktikum10.theme
 
 import android.app.Activity
 import android.os.Build
