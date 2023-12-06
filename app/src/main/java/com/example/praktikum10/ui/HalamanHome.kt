@@ -37,6 +37,7 @@ import com.example.praktikum10.data.Siswa
 import com.example.praktikum10.model.HomeViewModel
 import com.example.praktikum10.model.PenyediaViewModel
 import com.example.praktikum10.navigasi.DestinasiNavigasi
+import com.example.praktikum10.navigasi.SiswaToAppBar
 
 object DestinasiHome : DestinasiNavigasi {
     override val route = "home"
@@ -54,7 +55,13 @@ fun HomeScreen(
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {},
+        topBar = {
+            SiswaToAppBar(
+                title = stringResource(DestinasiHome.titleRes),
+                canNavigasiBack = false,
+                scrollBehavior = scrollBehavior
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = navigateToitemEntry,
@@ -112,8 +119,7 @@ fun ListSiswa(
     modifier: Modifier=Modifier
 ){
     LazyColumn(modifier = Modifier) {
-        items(items = itemSiswa, key = { it.id }) {
-                person ->
+        items(items = itemSiswa, key = { it.id }) { person ->
             DataSiswa(
                 siswa = person,
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small))
@@ -126,7 +132,7 @@ fun ListSiswa(
 @Composable
 fun DataSiswa(
     siswa: Siswa,
-    modifier: Modifier=Modifier
+    modifier: Modifier = Modifier
 ){
     Card(modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -137,8 +143,9 @@ fun DataSiswa(
         ) {
             Row(modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = siswa.nama,
-                    style = MaterialTheme.typography.titleLarge)
+                Text (text = siswa.nama,
+                    style = MaterialTheme.typography.titleLarge
+                )
 
                 Spacer(Modifier.weight(1f))
 
