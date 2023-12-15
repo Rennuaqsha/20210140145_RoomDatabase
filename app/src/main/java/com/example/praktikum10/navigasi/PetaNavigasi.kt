@@ -12,14 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.praktikum10.R
 import com.example.praktikum10.ui.DestinasiEntry
 import com.example.praktikum10.ui.DestinasiHome
 import com.example.praktikum10.ui.HomeScreen
 import com.example.praktikum10.ui.EntrySiswaScreen
+import com.example.praktikum10.ui.halaman.DetailDestination
+import com.example.praktikum10.ui.halaman.DetailScreen
+import com.example.praktikum10.ui.halaman.ItemEditDestination
+import com.example.praktikum10.ui.halaman.ItemEditScreen
 
 @Composable
 fun SiswaApp(navController: NavHostController = rememberNavController()) {
@@ -56,15 +62,55 @@ fun HostNavigasi(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ){
-    NavHost(navController = navController, startDestination = DestinasiHome.route, modifier = Modifier ){
-        composable(DestinasiHome.route){
-            HomeScreen(navigateToitemEntry = {navController.navigate(DestinasiEntry.route)},
+
+    NavHost(
+        navController = navController,
+        startDestination = DestinasiHome.route,
+        modifier = Modifier
+    ) {
+        composable(DestinasiHome.route) {
+            HomeScreen(
+                navigateToitemEntry = { navController.navigate(DestinasiEntry.route) },
+                onDetailClick = { itemId ->
+                    navController.navigate("${DetailDestination.route}/$itemId")
+                }
             )
         }
-        composable(DestinasiEntry.route){
-            EntrySiswaScreen(navigateBack = {navController.popBackStack()})
+
+        composable(DestinasiEntry.route) {
+            EntrySiswaScreen(
+                navigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            DetailDestination.routeWithArgs,
+            arguments = listOf(navArgument(DetailDestination.siswaIdArg) {
+                type = NavType.IntType
+            })
+        ) {backStackEntry ->
+            val itemId = backStackEntry.arguments?.getInt(DetailDestination.siswaIdArg)
+            itemId?.let {
+                DetailScreen(
+                    navigateBack = { navController.popBackStack() },
+                    navigateToEditItem = {
+                        navController.navigate("${ItemEditDestination.route}$it")
+                    }
+                )
+            }
+        }
+
+        composable(
+            ItemEditDestination.routeWithArgs,
+            arguments = listOf(navArgument(ItemEditDestination.itemIdArg) {
+                type = NavType.IntType
+            })
+        ) {
+            ItemEditScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
+            )
         }
 
     }
-
 }
